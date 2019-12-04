@@ -21,6 +21,7 @@ namespace PetStore.Controllers
         {
             return View(_Product.GetProducts);
         }
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -84,6 +85,15 @@ namespace PetStore.Controllers
         {
             var model = _Product.GetProduct(Id);
             return View("create", model);
+        }
+
+        //customer side 
+        public IActionResult IndexCustomer() {
+            return View(_Product.GetProducts);
+        }
+        [HttpGet]
+        public IActionResult DetailsCustomer(int? Id) {
+            return View(_Product.GetProduct(Id));
         }
     }
 }

@@ -16,5 +16,7 @@ namespace PetStore.Models
         public decimal? Price { get; set; }
         public string Description { get; set; }
         public byte[] ProductImage { get; set; }
+        public BasketItem basketItems { get; set; }
+        
     }
 }

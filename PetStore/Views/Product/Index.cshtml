@@ -39,9 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            @*<td>
-            @Html.DisplayFor(modelItem => item.ProductImage)
-        </td>*@
+            
             <td>
                 <div class="card" style="width: 15rem;">
                     <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(item.ProductImage == null ? "" : Convert.ToBase64String(item.ProductImage)) " 

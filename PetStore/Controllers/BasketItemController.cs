@@ -13,11 +13,13 @@ namespace PetStore.Controllers
         private readonly IBasketItem _BasketItem;
         private readonly IProduct _Product;
         private readonly IBasket _Basket;
-        public BasketItemController(IBasketItem _IBasketItem,IProduct _IProduct,IBasket _IBasket)
+        private readonly ICustomer _Customer;
+        public BasketItemController(IBasketItem _IBasketItem,IProduct _IProduct,IBasket _IBasket, ICustomer _ICustomer)
         {
             _BasketItem = _IBasketItem;
             _Product = _IProduct;
             _Basket = _IBasket;
+            _Customer = _ICustomer;
         }
         public IActionResult Index()
         {
@@ -58,6 +60,18 @@ namespace PetStore.Controllers
         public IActionResult DeleteConfirm(int? Id)
         {
             _BasketItem.Remove(Id);
+            return RedirectToAction("Index");
+        }
+
+        //front-end related
+        
+        public IActionResult AddToCart(int? pid,int? quantity) {
+            BasketItem bi = new BasketItem();
+            bi.ItemQuantity = quantity;
+            bi.ProductId = pid;
+            bi.BasketId = 3;
+            _BasketItem.Add(bi);
+            //ViewBag.CustomerList = _Customer.GetCustomers;
             return RedirectToAction("Index");
         }
     }

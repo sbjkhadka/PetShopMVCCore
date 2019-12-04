@@ -1,0 +1,42 @@
+﻿@model PetStore.Models.Product
+
+@{
+    ViewData["Title"] = "DetailsCustomer";
+}
+<script type="text/javascript"></script>
+<h2>Welcome <b>Customer Name</b></h2>
+<h3>@Html.DisplayFor(model => model.ProductName)</h3>
+<div style="display:flex;flex-direction:row;justify-content:space-between">
+    <div>
+        <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(Model.ProductImage == null ? "" : Convert.ToBase64String(Model.ProductImage)) "
+             onerror="this.onerror=null;this.src='../../images/thumb.jpg';" />
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.ProductName)<br />
+        @Html.DisplayFor(model => model.Price)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Description)<br />
+        @*<a asp-controller="BasketItems" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>*@
+        <form asp-controller="BasketItem" asp-action="AddToCart" method="post">
+            <input asp-for="basketItems.ItemQuantity" type="number" name="quantity" id="quantity" />
+            <input asp-for="basketItems.ProductId" type="hidden" name="pid" id="pid" value="@Model.ProductId"/>
+            
+            <button type="submit">Add to cart</button>
+        </form>
+
+
+        @*<input asp-for="basketItems.ItemQuantity" type="number" name="quantity" id="quantity" />
+        <a asp-controller="BasketItem" asp-action="AddToCart" asp-route-pid="@Model.ProductId"  id="myanchor" asp-route-quantity="2">Add to Cart</a>*@
+        
+
+        @Model.ProductId
+    </div>
+</div>
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+ 
