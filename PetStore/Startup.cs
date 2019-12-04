@@ -39,10 +39,16 @@ namespace PetStore
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //session
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            //session
             services.AddTransient<ICustomer,CustomerRepository> ();
             services.AddTransient <IProduct,ProductRepository> ();
             services.AddTransient <IBasket,BasketRepository> ();
             services.AddTransient <IBasketItem,BasketItemRepository> ();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +66,9 @@ namespace PetStore
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            //session
+            app.UseSession();
+            //session
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
