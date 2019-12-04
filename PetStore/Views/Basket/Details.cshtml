@@ -1,0 +1,97 @@
+﻿@model PetStore.Models.Basket
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Basket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderPlaced)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderPlaced)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SubTotal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubTotal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customers)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customers.CustomerId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BasketItems)
+        </dt>
+        <dd>
+            @*place for basket items associated with basket*@
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Quantity
+                        </th>
+                        <th>
+                            Product ID
+                        </th>
+                        <th>
+                            Basket ID
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.BasketItems)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Products.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BasketId)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.BasketItemId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.BasketItemId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.BasketItemId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BasketId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
