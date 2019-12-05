@@ -26,7 +26,9 @@ namespace PetStore.Controllers
         public IActionResult Index()
         {
             
+            
             return View(_BasketItem.GetBasketItems);
+            
         }
         [HttpGet]
         public IActionResult Create()
@@ -68,40 +70,25 @@ namespace PetStore.Controllers
 
         //front-end related
         
-        public IActionResult AddToCart(int? pid,int? quantity, int custId) {
+        public IActionResult AddToCart(int? pid,int? quantity,string custNo) {
             BasketItem bi = new BasketItem();
             bi.ItemQuantity = quantity;
             bi.ProductId = pid;
             bi.BasketId = 3;
             _BasketItem.Add(bi);
-            //ViewBag.CustomerList = _Customer.GetCustomers;
+
 
             //session
-
-            //const string sessionKey = "CustID";
-            //int id = custId;
-            //var value = HttpContext.Session.GetString(sessionKey);
-            //if (string.IsNullOrEmpty(value))
-            //{
-            //    //dateFirstSeen = DateTime.Now;
-            //    var serialisedID = JsonConvert.SerializeObject(id);
-            //    HttpContext.Session.SetString(sessionKey, serialisedID);
-            //}
-            //else
-            //{
-            //    id = 8;
-            //}
-
+            //pull customer Ids from customer table, loop through and compare with custNo
+            //if found then set session, else do something else
+            HttpContext.Session.SetString("test", "8");  //demo
             
-            //if (_Session.TryGetValue("CustID", out int a))
-            //{
-            //    return RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Create");
-            //}
-            //return View(model);
+            if (custNo == HttpContext.Session.GetString("test"))//demo
+            {
+                return RedirectToAction("Create");
+            }
+
+            //ViewBag.Name = HttpContext.Session.GetString("test");
             //session
             return RedirectToAction("Index");
         }
