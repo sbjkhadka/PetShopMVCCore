@@ -74,7 +74,7 @@ namespace PetStore.Controllers
             BasketItem bi = new BasketItem();
             bi.ItemQuantity = quantity;
             bi.ProductId = pid;
-            bi.BasketId = 3;
+            bi.BasketId = 3; //eliminate hardcoding later
             _BasketItem.Add(bi);
 
 
