@@ -27,9 +27,9 @@ namespace PetStore.Repository
             return db.Customers
                         .Include(e => e.Baskets)
                         .SingleOrDefault(m => m.CustomerId == Id);
-        }  
-
-        public void Remove(int? Id)
+        }
+       
+            public void Remove(int? Id)
         {
             db.Customers.Remove(db.Customers.Find(Id));
             db.SaveChanges();

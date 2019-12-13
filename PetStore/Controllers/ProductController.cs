@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetStore.Models;
 using PetStore.Services;
+using System.Web;
+using Newtonsoft.Json;
 
 namespace PetStore.Controllers
 {
@@ -89,6 +91,10 @@ namespace PetStore.Controllers
 
         //customer side 
         public IActionResult IndexCustomer() {
+            var loggedIn = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("activeCustomer"));
+            int customerID = Convert.ToInt32(loggedIn.CustomerId);
+            string customerName = Convert.ToString(loggedIn.FirstName);
+            ViewBag.cid = customerName;
             return View(_Product.GetProducts);
         }
         [HttpGet]

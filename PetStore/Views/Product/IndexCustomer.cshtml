@@ -4,22 +4,21 @@
     ViewData["Title"] = "IndexCustomer";
 }
 
-<h2>Welcome <b>Customer Name</b></h2>
-
+<h2>Welcome <b>@ViewBag.cid</b></h2>
 
 <div style="display:flex;flex-direction:row;justify-content:space-around">
-    
+
     @foreach (var item in Model)
     {
-    <div style="display:flex;flex-direction:column;border:2px solid navy;padding:5px;">
-        <div style="display:flex;flex-direction:row;justify-content:space-between"><span>@Html.DisplayFor(modelItem => item.ProductName)</span> <span>$@Html.DisplayFor(modelItem => item.Price)</span></div>
-        <div class="card" style="width: 15rem;">
-            <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(item.ProductImage == null ? "" : Convert.ToBase64String(item.ProductImage)) "
-                 onerror="this.onerror=null;this.src='../images/thumb.jpg';" />
-        </div>
-        <a asp-action="DetailsCustomer" asp-route-id="@item.ProductId" style="text-decoration:none">Details</a>
+        <div style="display:flex;flex-direction:column;border:2px solid navy;padding:5px;">
+            <div style="display:flex;flex-direction:row;justify-content:space-between"><span>@Html.DisplayFor(modelItem => item.ProductName)</span> <span>$@Html.DisplayFor(modelItem => item.Price)</span></div>
+            <div class="card" style="width: 15rem;">
+                <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(item.ProductImage == null ? "" : Convert.ToBase64String(item.ProductImage)) "
+                     onerror="this.onerror=null;this.src='../images/thumb.jpg';" />
+            </div>
+            <a asp-action="DetailsCustomer" asp-route-id="@item.ProductId" style="text-decoration:none">Details</a>
 
-    </div>
+        </div>
 
 
 
@@ -31,10 +30,11 @@
 
 
         @*<div>
-            <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-        </div>*@
+                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+            </div>*@
 
-    }</div>
+    }
+</div>
 

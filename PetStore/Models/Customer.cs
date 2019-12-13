@@ -19,6 +19,7 @@ namespace PetStore.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Country { get; set; }
+        
         public ICollection<Basket> Baskets { get; set; }
     }
 }
