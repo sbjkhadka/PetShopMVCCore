@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PetStore.Models;
 using PetStore.Services;
 
@@ -73,6 +75,27 @@ namespace PetStore.Controllers
         {
             return View(_Basket.GetBasket(Id));
         }
-        
+        public IActionResult getCustomerBasket()
+        {
+            int Id = getBasketIdFromSession();
+            ViewBag.CustomerName = getCustomerNameFromSession();
+            return View(_Basket.GetBasket(Id));
+        }
+
+        private int getBasketIdFromSession()
+        {
+            var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
+            return Convert.ToInt32(currentBasket.BasketId);
+        }
+        private string getCustomerNameFromSession() {
+            var loggedIn = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("activeCustomer"));
+            int customerID = Convert.ToInt32(loggedIn.CustomerId);
+            return Convert.ToString(loggedIn.FirstName);
+            
+        }
+        public IActionResult LoggedOut() => View();
+
+
+
     }
 }

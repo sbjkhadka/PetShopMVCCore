@@ -3,8 +3,30 @@
 @{
     ViewData["Title"] = "DetailsCustomer";
 }
-<script type="text/javascript"></script>
-<h2>Welcome <b>Customer Name</b></h2>
+<style>
+    a:hover {
+        color: orangered;
+    }
+
+    a.navRight {
+        padding: 5px;
+        border: 1px solid green;
+    }
+</style>
+<div style="margin-top:20px;border:1px dotted gray;padding:30px;">
+    <h2 style="display:inline">Welcome <b>@ViewBag.cid</b></h2>
+    <a asp-action="getCustomerBasket" asp-controller="Basket">
+        <img src="~/images/basket.png" height="50px" width="50px" style="float:right;" data-toggle="tooltip" title=@ViewBag.bid />
+    </a>
+    <div style="float:right;">
+
+        <a asp-area="" asp-controller="Product" asp-action="IndexCustomer" style="text-decoration:none" class="navRight">Continue Shopping</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a asp-area="" asp-controller="Basket" asp-action="LoggedOut" style="text-decoration:none" class="navRight">Check out</a>
+    </div>
+
+
+</div>
+
 <h3>@Html.DisplayFor(model => model.ProductName)</h3>
 <div style="display:flex;flex-direction:row;justify-content:space-between">
     <div>
@@ -13,32 +35,19 @@
     </div>
     <div>
         @Html.DisplayFor(model => model.ProductName)<br />
-        @Html.DisplayFor(model => model.Price)
+        $ @Html.DisplayFor(model => model.Price)
     </div>
     <div>
         @Html.DisplayFor(model => model.Description)<br />
-        @*<a asp-controller="BasketItems" asp-action="AddToCart" asp-route-id="@Model.ProductId">Add to Cart</a>*@
         <form asp-controller="BasketItem" asp-action="AddToCart" method="post">
             <input asp-for="basketItems.ItemQuantity" type="number" name="quantity" id="quantity" />
-            <input asp-for="basketItems.ProductId" type="hidden" name="pid" id="pid" value="@Model.ProductId"/>
-            <input type="hidden" name="price" id="price" value="@Model.Price"/>
-            @*<input type="hidden" name="selectedProduct" id="pid" value="@Model"/>*@
-            <input type="text" name="custNo" placeholder="customer number"/>
+            <input asp-for="basketItems.ProductId" type="hidden" name="pid" id="pid" value="@Model.ProductId" />
+            <input type="hidden" name="price" id="price" value="@Model.Price" />
             <button type="submit">Add to cart</button>
         </form>
-
-
-        @*<input asp-for="basketItems.ItemQuantity" type="number" name="quantity" id="quantity" />
-        <a asp-controller="BasketItem" asp-action="AddToCart" asp-route-pid="@Model.ProductId"  id="myanchor" asp-route-quantity="2">Add to Cart</a>*@
-        
-
-        @Model.ProductId
+        @Model.ProductName
     </div>
 </div>
 
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ProductId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
- 
+

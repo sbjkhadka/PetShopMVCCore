@@ -17,7 +17,7 @@ namespace PetStore.Controllers
         private readonly IBasket _Basket;
         private readonly ICustomer _Customer;
        
-        Basket pullBasket;
+        //Basket pullBasket;
         public BasketItemController(IBasketItem _IBasketItem,IProduct _IProduct,IBasket _IBasket, ICustomer _ICustomer)
         {
             _BasketItem = _IBasketItem;
@@ -82,18 +82,11 @@ namespace PetStore.Controllers
             bi.BasketId = getBasketIdFromSession(); 
             _BasketItem.Add(bi);
 
-            //var items = _BasketItem.GetBasketItems;
-
-            //totalPrice = totalPrice+(decimal)Price;
-            /*
-            pullBasket= _Basket.GetBasket(bi.BasketId);
-            pullBasket.Quantity = bi.ItemQuantity;
-            pullBasket.Total = 100;
-            _Basket.Update(bi.BasketId, pullBasket); //updated each time customer adds an item in the basket*/
-
             Basket pullBasket = new Basket() { Quantity = quantity,Total=price* quantity };
             _Basket.Update(bi.BasketId, pullBasket);
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            //return RedirectToAction("IndexCustomer", "Product");
+            return RedirectToAction("getCustomerBasket", "Basket");
         }
 
         private int getBasketIdFromSession()
@@ -101,6 +94,8 @@ namespace PetStore.Controllers
             var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
             return Convert.ToInt32(currentBasket.BasketId);
         }
+
         
+
     }
 }

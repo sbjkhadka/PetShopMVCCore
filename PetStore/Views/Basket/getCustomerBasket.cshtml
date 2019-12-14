@@ -1,0 +1,121 @@
+﻿@model PetStore.Models.Basket
+
+@{
+    ViewData["Title"] = "getCustomerBasket";
+}
+<style>
+    a:hover{
+        color:orangered;
+    }
+    a.navRight {
+        padding: 5px;
+        border: 1px solid green;
+    }
+</style>
+<div style="margin:20px">
+    <h2 style="display:inline">Basket details of @ViewBag.CustomerName </h2>
+    <div style="float:right;">
+
+        <a asp-area="" asp-controller="Product" asp-action="IndexCustomer" style="text-decoration:none" class="navRight">Continue Shopping</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a asp-area="" asp-controller="Basket" asp-action="LoggedOut" style="text-decoration:none" class="navRight">Check out</a>
+    </div>
+</div>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderPlaced)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderPlaced)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SubTotal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubTotal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customers)
+        </dt>
+        <dd>
+            @ViewBag.CustomerName
+        </dd>
+        <dt>
+           @* Place for basket items *@
+        </dt>
+        <dd>
+            @* Place for basket Items start*@
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Unit Price
+                        </th>
+                        <th>
+                            Total Price
+                        </th>
+                        <th>Basket ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.BasketItems)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Products.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemQuantity)
+                        </td>
+
+                        <td>
+                            $ @Html.DisplayFor(modelItem => item.Products.Price)
+                        </td>
+                        <td>
+                            $ @((item.ItemQuantity * item.Products.Price))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BasketId)
+                        </td>
+                    </tr>
+                    }
+                    <tr><td><b>Total</b></td>
+                        <td>@Html.DisplayFor(model => model.Quantity)</td>
+                    
+                    <td>$ @Html.DisplayFor(model => model.Total)</td>
+                    <td>$ @Html.DisplayFor(model => model.Total)</td>
+                    </tr>
+                </tbody>
+            </table>
+            @* Place for basket Items end *@
+        </dd>
+    </dl>
+   
+</div>
+

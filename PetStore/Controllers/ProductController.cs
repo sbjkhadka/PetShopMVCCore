@@ -91,6 +91,36 @@ namespace PetStore.Controllers
 
         //customer side 
         public IActionResult IndexCustomer() {
+            if (HttpContext.Session.GetString("activeCustomer") != null && HttpContext.Session.GetString("activeBasket")!=null)
+            {
+                var loggedIn = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("activeCustomer"));
+                int customerID = Convert.ToInt32(loggedIn.CustomerId);
+                string customerName = Convert.ToString(loggedIn.FirstName);
+                ViewBag.cid = customerName;
+
+                var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
+                int BasketId = Convert.ToInt32(currentBasket.BasketId);
+                ViewBag.bid = BasketId;
+                return View(_Product.GetProducts);
+            }
+            else
+            {
+                
+                return RedirectToAction("CustomerLogin", "Customer");
+                //mesagebox
+            }
+                
+            
+           
+            
+
+            
+        }
+        [HttpGet]
+        public IActionResult DetailsCustomer(int? Id) {
+            Product model = _Product.GetProduct(Id);
+            ViewBag.selectedProduct = model;
+
             var loggedIn = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("activeCustomer"));
             int customerID = Convert.ToInt32(loggedIn.CustomerId);
             string customerName = Convert.ToString(loggedIn.FirstName);
@@ -99,12 +129,9 @@ namespace PetStore.Controllers
             var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
             int BasketId = Convert.ToInt32(currentBasket.BasketId);
             ViewBag.bid = BasketId;
-            return View(_Product.GetProducts);
-        }
-        [HttpGet]
-        public IActionResult DetailsCustomer(int? Id) {
-            Product model = _Product.GetProduct(Id);
-            ViewBag.selectedProduct = model;
+            
+
+
             return View(model);
         }
     }

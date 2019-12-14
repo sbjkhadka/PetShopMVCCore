@@ -4,37 +4,34 @@
     ViewData["Title"] = "IndexCustomer";
 }
 
-<h2>Welcome <b>@ViewBag.cid</b>@ViewBag.bid</h2>
 
-<div style="display:flex;flex-direction:row;justify-content:space-around">
+<div style="margin:20px">
+    <h2 style="display:inline">Welcome <b>@ViewBag.cid</b></h2>
+    <a asp-area="" asp-controller="Customer" asp-action="CustomerLogin" style="text-decoration:none;float:right;">Sign out</a>
+    <a asp-action="getCustomerBasket" asp-controller="Basket">
+        <img src="~/images/basket.png" height="50px" width="50px" style="float:right;margin-right:100px;" data-toggle="tooltip" title=@ViewBag.bid />
+    </a>
+
+</div>
+
+<div style="display:flex;flex-direction:row;justify-content:space-around;align-content:center;flex-flow:wrap">
 
     @foreach (var item in Model)
     {
-        <div style="display:flex;flex-direction:column;border:2px solid navy;padding:5px;">
+        <div style="display:flex;flex-direction:column;border:2px solid navy;padding:15px;margin:15px;">
             <div style="display:flex;flex-direction:row;justify-content:space-between"><span>@Html.DisplayFor(modelItem => item.ProductName)</span> <span>$@Html.DisplayFor(modelItem => item.Price)</span></div>
             <div class="card" style="width: 15rem;">
                 <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(item.ProductImage == null ? "" : Convert.ToBase64String(item.ProductImage)) "
                      onerror="this.onerror=null;this.src='../images/thumb.jpg';" />
             </div>
-            <a asp-action="DetailsCustomer" asp-route-id="@item.ProductId" style="text-decoration:none">Details</a>
-
+            <div>
+                <a asp-action="DetailsCustomer" asp-route-id="@item.ProductId" style="text-decoration:none">Details</a>
+                <a asp-action="AddToCart" asp-controller="BasketItem" asp-route-pid="@item.ProductId" asp-route-quantity=1 asp-route-price=0 style="text-decoration:none">
+                    <img src="~/images/basket.png" style="width:20px;height:20px;float:right" />
+                </a>
+            </div>
         </div>
-
-
-
-
-
-        @*@Html.DisplayFor(modelItem => item.Description)*@
-
-
-
-
-        @*<div>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </div>*@
-
     }
 </div>
 
+@*  public IActionResult AddToCart(int? pid,int? quantity,decimal? price) { *@

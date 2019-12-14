@@ -65,6 +65,7 @@ namespace PetStore.Controllers
         //action methods related to front end 
         public IActionResult CustomerLogin()
         {
+            HttpContext.Session.Clear();
             return View();
         }
         public IActionResult InitiateLogin(string custId)
