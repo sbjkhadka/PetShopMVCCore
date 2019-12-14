@@ -37,6 +37,18 @@ namespace PetStore.Controllers
             }
             return View(model);
         }
+
+        //public int CreateBasket(Basket model) {
+        //    if (ModelState.IsValid)
+        //    {
+        //       return  _Basket.Add(model);
+        //        //return RedirectToAction("Index");
+        //    }
+        //    else {
+        //        return 1;
+        //    }
+            
+        //}
         [HttpGet]
         public IActionResult Delete(int? Id)
         {

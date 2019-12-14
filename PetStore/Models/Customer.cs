@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace PetStore.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Country { get; set; }
-        
-        public ICollection<Basket> Baskets { get; set; }
+        [JsonIgnore]
+        public ICollection<Basket> Baskets {  get; set; }
     }
 }

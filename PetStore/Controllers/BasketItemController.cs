@@ -16,6 +16,8 @@ namespace PetStore.Controllers
         private readonly IProduct _Product;
         private readonly IBasket _Basket;
         private readonly ICustomer _Customer;
+       
+        Basket pullBasket;
         public BasketItemController(IBasketItem _IBasketItem,IProduct _IProduct,IBasket _IBasket, ICustomer _ICustomer)
         {
             _BasketItem = _IBasketItem;
@@ -70,27 +72,35 @@ namespace PetStore.Controllers
 
         //front-end related
         
-        public IActionResult AddToCart(int? pid,int? quantity,string custNo) {
+        public IActionResult AddToCart(int? pid,int? quantity,decimal? price) {
+
+
             BasketItem bi = new BasketItem();
             bi.ItemQuantity = quantity;
             bi.ProductId = pid;
-            bi.BasketId = 3; //eliminate hardcoding later
+            
+            bi.BasketId = getBasketIdFromSession(); 
             _BasketItem.Add(bi);
 
+            //var items = _BasketItem.GetBasketItems;
 
-            //session
-            //pull customer Ids from customer table, loop through and compare with custNo
-            //if found then set session, else do something else
-            HttpContext.Session.SetString("test", "8");  //demo
-            
-            if (custNo == HttpContext.Session.GetString("test"))//demo
-            {
-                return RedirectToAction("Create");
-            }
+            //totalPrice = totalPrice+(decimal)Price;
+            /*
+            pullBasket= _Basket.GetBasket(bi.BasketId);
+            pullBasket.Quantity = bi.ItemQuantity;
+            pullBasket.Total = 100;
+            _Basket.Update(bi.BasketId, pullBasket); //updated each time customer adds an item in the basket*/
 
-            //ViewBag.Name = HttpContext.Session.GetString("test");
-            //session
+            Basket pullBasket = new Basket() { Quantity = quantity,Total=price* quantity };
+            _Basket.Update(bi.BasketId, pullBasket);
             return RedirectToAction("Index");
         }
+
+        private int getBasketIdFromSession()
+        {
+            var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
+            return Convert.ToInt32(currentBasket.BasketId);
+        }
+        
     }
 }

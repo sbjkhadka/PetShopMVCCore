@@ -10,7 +10,8 @@ namespace PetStore.Services
     {
         IEnumerable<Basket> GetBaskets { get; }
         Basket GetBasket(int? Id);
-        void Add(Basket _Basket);
+        int Add(Basket _Basket); //changed from void to int
         void Remove(int? Id);
+        void Update(int? Id, Basket _Basket);
     }
 }

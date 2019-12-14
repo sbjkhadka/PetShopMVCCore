@@ -16,13 +16,12 @@ namespace PetStore.Repository
             db = _db;
         }
         public IEnumerable<Basket> GetBaskets => db.Baskets
-                                                    .Include(global => global.Customers)
-                                                //.Include(global=>global.BasketItems).ThenInclude(global=>global.Products);
-                                                ;
-        public void Add(Basket _Basket)
+                                                    .Include(global => global.Customers);
+        public int Add(Basket _Basket) //changed from void to int
         {
             db.Baskets.Add(_Basket);
             db.SaveChanges();
+            return _Basket.BasketId; //returned basketId of recently created basket
         }
 
         public Basket GetBasket(int? Id)
@@ -36,6 +35,15 @@ namespace PetStore.Repository
         public void Remove(int? Id)
         {
             db.Baskets.Remove(db.Baskets.Find(Id));
+            db.SaveChanges();
+        }
+
+        public void Update(int? Id,Basket _Basket) {
+            Basket updatedBasket = db.Baskets.FirstOrDefault(i=>i.BasketId==Id);
+            updatedBasket.Quantity += _Basket.Quantity;
+            updatedBasket.Total += _Basket.Total;
+            updatedBasket.SubTotal = updatedBasket.Total;
+            db.Baskets.Update(updatedBasket);
             db.SaveChanges();
         }
     }

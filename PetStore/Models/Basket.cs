@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,7 @@ namespace PetStore.Models
         [DisplayName("Customer Name")]
         public int? CustomerId { get; set; }
         public Customer Customers { get; set; }
+        [JsonIgnore]
         public ICollection<BasketItem> BasketItems { get; set; }
         //public ICollection<Product> Products { get; set; }
     }

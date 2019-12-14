@@ -14,9 +14,11 @@ namespace PetStore.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomer _Customer;
-        public CustomerController(ICustomer _ICustomer)
+        private readonly IBasket _Basket;
+        public CustomerController(ICustomer _ICustomer,IBasket _IBasket)
         {
             _Customer = _ICustomer;
+            _Basket = _IBasket;
         }
         public IActionResult Index()
         {
@@ -77,44 +79,36 @@ namespace PetStore.Controllers
                 }
                 else
                 {
+                //basket creation
+                Basket newBasket = new Basket() { Quantity = 0, OrderPlaced = OrderPlaced.No, SubTotal=0, Total=0,DateCreated=DateTime.Now,CustomerId= custIdNum };
+                int currentBasketId = _Basket.Add(newBasket);
+                newBasket.BasketId = currentBasketId;
+                //HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(customerModel));
+                //customer session creation
+                
+                try
+                {
                     HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(customerModel));
-                    return RedirectToAction("IndexCustomer", "Product");
+                    HttpContext.Session.SetString("activeBasket", JsonConvert.SerializeObject(newBasket));
+                }
+                catch (JsonSerializationException e)
+                {
+                   //handle exception here
+                }
+                string activeUserData = JsonConvert.SerializeObject(customerModel, new JsonSerializerSettings(){
+                    PreserveReferencesHandling=PreserveReferencesHandling.Objects,
+                    Formatting=Formatting.Indented
+                });
+                string activeBasketData = JsonConvert.SerializeObject(newBasket, new JsonSerializerSettings()
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    Formatting = Formatting.Indented
+                });
+
+
+                return RedirectToAction("IndexCustomer", "Product");
                 }
             
-           
-            //ViewBag.activeCustomer = custId;
-            //TempData["activeCustomer"] = custId;
-
-            //session
-            //pull customer Ids from customer table, loop through and compare with custNo
-            //if found then set session, else do something else
-            /*
-            int custIdNum;
-            bool success = int.TryParse(custId, out custIdNum);
-            if (success)
-            {
-                var Customer = new Customer() { CustomerId = custIdNum };
-
-                HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(Customer));  //demo
-            }
-            else
-            {
-                //handle input validation here
-            }
-            */
-            // Session["activeCustomer"] = custId;
-            /*
-            if (custNo == HttpContext.Session.GetString("activeCustomer"))//demo
-            {
-                return RedirectToAction("Create");
-            }
-
-            //ViewBag.Name = HttpContext.Session.GetString("test");
-            //session
-            return RedirectToAction("Index");
-            */
-            //return RedirectToAction("IndexCustomer", "Product");
-
         }
 
 

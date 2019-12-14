@@ -17,6 +17,7 @@ namespace PetStore.Repository
         }
         public IEnumerable<BasketItem> GetBasketItems => db.BasketItems
                                                             .Include(global=>global.Products);
+        
 
         public void Add(BasketItem _BasketItem)
         {

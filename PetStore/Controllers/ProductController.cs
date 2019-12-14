@@ -95,11 +95,17 @@ namespace PetStore.Controllers
             int customerID = Convert.ToInt32(loggedIn.CustomerId);
             string customerName = Convert.ToString(loggedIn.FirstName);
             ViewBag.cid = customerName;
+
+            var currentBasket = JsonConvert.DeserializeObject<Basket>(HttpContext.Session.GetString("activeBasket"));
+            int BasketId = Convert.ToInt32(currentBasket.BasketId);
+            ViewBag.bid = BasketId;
             return View(_Product.GetProducts);
         }
         [HttpGet]
         public IActionResult DetailsCustomer(int? Id) {
-            return View(_Product.GetProduct(Id));
+            Product model = _Product.GetProduct(Id);
+            ViewBag.selectedProduct = model;
+            return View(model);
         }
     }
 }
