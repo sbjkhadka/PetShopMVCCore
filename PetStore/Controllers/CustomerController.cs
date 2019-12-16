@@ -65,7 +65,7 @@ namespace PetStore.Controllers
         //action methods related to front end 
         public IActionResult CustomerLogin()
         {
-            HttpContext.Session.Clear();
+            HttpContext.Session.Clear(); //clears session if any
             return View();
         }
         public IActionResult InitiateLogin(string custId)
@@ -75,39 +75,41 @@ namespace PetStore.Controllers
             Customer customerModel = _Customer.GetCustomer(custIdNum);
                 if (customerModel==null)
                 {
-                    //cannot find a valid customer
+                //cannot find a valid customer
+                ViewBag.ErrorMessage = "Please try again";
                     return View("CustomerLogin");
                 }
                 else
                 {
-                //basket creation
-                Basket newBasket = new Basket() { Quantity = 0, OrderPlaced = OrderPlaced.No, SubTotal=0, Total=0,DateCreated=DateTime.Now,CustomerId= custIdNum };
-                int currentBasketId = _Basket.Add(newBasket);
-                newBasket.BasketId = currentBasketId;
-                //HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(customerModel));
-                //customer session creation
+                    //basket creation
+                    Basket newBasket = new Basket() { Quantity = 0, OrderPlaced = OrderPlaced.No, SubTotal=0, Total=0,DateCreated=DateTime.Now,CustomerId= custIdNum };
+                    int currentBasketId = _Basket.Add(newBasket);
+                    newBasket.BasketId = currentBasketId;
+                    //customer session creation
                 
-                try
-                {
-                    HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(customerModel));
-                    HttpContext.Session.SetString("activeBasket", JsonConvert.SerializeObject(newBasket));
-                }
-                catch (JsonSerializationException e)
-                {
-                   //handle exception here
-                }
+                    try
+                    {
+                        HttpContext.Session.SetString("activeCustomer", JsonConvert.SerializeObject(customerModel));
+                        HttpContext.Session.SetString("activeBasket", JsonConvert.SerializeObject(newBasket));
+                    }
+                    catch (JsonSerializationException e)
+                    {
+                       //handle exception here
+                    }
+                //to avoid referencing loop
+                //https://stackoverflow.com/questions/23453977/what-is-the-difference-between-preservereferenceshandling-and-referenceloophandl/23461179
                 string activeUserData = JsonConvert.SerializeObject(customerModel, new JsonSerializerSettings(){
-                    PreserveReferencesHandling=PreserveReferencesHandling.Objects,
-                    Formatting=Formatting.Indented
-                });
-                string activeBasketData = JsonConvert.SerializeObject(newBasket, new JsonSerializerSettings()
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                    Formatting = Formatting.Indented
-                });
+                        PreserveReferencesHandling=PreserveReferencesHandling.Objects,
+                        Formatting=Formatting.Indented
+                    });
+                    string activeBasketData = JsonConvert.SerializeObject(newBasket, new JsonSerializerSettings()
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                        Formatting = Formatting.Indented
+                    });
 
 
-                return RedirectToAction("IndexCustomer", "Product");
+                    return RedirectToAction("IndexCustomer", "Product");
                 }
             
         }

@@ -73,16 +73,21 @@ namespace PetStore.Controllers
         //front-end related
         
         public IActionResult AddToCart(int? pid,int? quantity,decimal? price) {
+            if (quantity == null)
+            {
+                quantity = 1;
+            }
 
-
+            //basket item creation
             BasketItem bi = new BasketItem();
             bi.ItemQuantity = quantity;
+            //bi.ItemQuantity = quantity==null?1:quantity;
             bi.ProductId = pid;
-            
             bi.BasketId = getBasketIdFromSession(); 
             _BasketItem.Add(bi);
-
+            //basket creation
             Basket pullBasket = new Basket() { Quantity = quantity,Total=price* quantity };
+            //Basket pullBasket = new Basket() { Quantity = quantity == null ? 1 : quantity, Total = price * quantity == null ? 1 : quantity };
             _Basket.Update(bi.BasketId, pullBasket);
             //return RedirectToAction("Index");
             //return RedirectToAction("IndexCustomer", "Product");

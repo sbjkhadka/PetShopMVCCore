@@ -15,7 +15,7 @@
             <form asp-controller="Customer" asp-action="InitiateLogin" method="post">
                 <div class="text-danger"></div>
                 <div class="form-group">
-                    <label class="control-label"></label>
+                    <label class="control-label" style="color:red">@ViewBag.ErrorMessage</label>
                     <input name="custId" type="text" class="form-control" placeholder="User ID" />
                 </div>
 

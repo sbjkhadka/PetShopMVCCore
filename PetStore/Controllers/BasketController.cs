@@ -75,6 +75,8 @@ namespace PetStore.Controllers
         {
             return View(_Basket.GetBasket(Id));
         }
+
+        //customer related actions starts from here
         public IActionResult getCustomerBasket()
         {
             int Id = getBasketIdFromSession();

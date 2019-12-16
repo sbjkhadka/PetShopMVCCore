@@ -26,6 +26,7 @@
             </div>
             <div>
                 <a asp-action="DetailsCustomer" asp-route-id="@item.ProductId" style="text-decoration:none">Details</a>
+                @* this line is not working, review it later *@
                 <a asp-action="AddToCart" asp-controller="BasketItem" asp-route-pid="@item.ProductId" asp-route-quantity=1 asp-route-price=0 style="text-decoration:none">
                     <img src="~/images/basket.png" style="width:20px;height:20px;float:right" />
                 </a>
@@ -34,4 +35,3 @@
     }
 </div>
 
-@*  public IActionResult AddToCart(int? pid,int? quantity,decimal? price) { *@
